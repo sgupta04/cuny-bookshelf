@@ -50,6 +50,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         controller: 'BookresultsCtrl'
       }
     }
+  })
+
+  .state('app.amazonresults', {
+    url: '/amazonresults',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/amazonresults.html',
+        controller: 'AmazonresultsCtrl'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/booksearch');
