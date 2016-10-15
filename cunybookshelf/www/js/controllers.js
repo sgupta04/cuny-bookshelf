@@ -10,7 +10,7 @@ angular.module('cunybookshelf.controllers', [])
       {id:"author" , name:"Author"},
       {id:"isbn", name:"ISBN"}
     ]};
-  $scope.search = function(path){
+  $scope.search = function(){
     $scope.show();
     $http({
       method: 'GET',
@@ -24,6 +24,17 @@ angular.module('cunybookshelf.controllers', [])
         alert("error: "+response.data);
       });
   }
+
+  //BarCode Scanner
+  $scope.scanBarcode = function() {
+        $cordovaBarcodeScanner.scan().then(function(imageData) {
+            alert(imageData.text);
+            console.log("Barcode Format -> " + imageData.format);
+            console.log("Cancelled -> " + imageData.cancelled);
+        }, function(error) {
+            console.log("An error happened -> " + error);
+        });
+    };
 
   //Loading function
   $scope.show = function() {
