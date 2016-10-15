@@ -52,12 +52,12 @@ angular.module('cunybookshelf', ['ionic', 'cunybookshelf.controllers', 'cunybook
     }
   })
 
-  .state('app.amazonresults', {
-    url: '/amazonresults',
+  .state('app.cunyresults', {
+    url: '/cunyresults',
     views: {
       'menuContent': {
-        templateUrl: 'templates/amazonresults.html',
-        controller: 'AmazonresultsCtrl'
+        templateUrl: 'templates/cunyresults.html',
+        controller: 'CunyResultsCtrl'
       }
     }
   });
