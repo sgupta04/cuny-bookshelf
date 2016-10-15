@@ -59,7 +59,7 @@ angular.module('cunybookshelf.controllers', [])
   };
 })
 
-.controller('BookresultsCtrl', function($scope, $stateParams, factorysearchresults) {
+.controller('BookresultsCtrl', function($scope, $state, $http, $stateParams, factorysearchresults, cunysearchresults) {
   $scope.searchresults = factorysearchresults.getsearchresults();
   for (i = 0; i < $scope.searchresults.docs.length; i++){
     console.log(i);
@@ -72,8 +72,23 @@ angular.module('cunybookshelf.controllers', [])
       $scope.showresult = true;
     }
   }
+
+  $scope.cunySearch = function(isbn){
+    // $scope.show();
+    $http({
+      method: 'GET',
+      url: 'http://openlibrary.org/search.json?isbn='+isbn
+    }).then(function successCallback(response) {
+        cunysearchresults.updatesearchresults(response.data);
+        $state.go('app.cunyresults');
+        // $scope.hide();
+      }, function errorCallback(response) {
+        // $scope.hide();
+        alert("error: "+response.data);
+      });
+  };
 })
 
 .controller('CunyResultsCtrl', function($scope, $stateParams, cunysearchresults) {
-  $scope.cunyresults = cunysearchresults.getsearchresults();
+  $scope.cunyresults = cunysearchresults.getsearchresults().docs[0];
 });
