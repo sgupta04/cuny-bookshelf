@@ -7,6 +7,33 @@
         <img src="{{'http://covers.openlibrary.org/b/isbn/'+result['isbn'][0]+'-S.jpg'}}">
         <h2>{{result['title']}}</h2>
         <p>{{result['author_name'][0]}}</p>
+        <p>Pub Year: {{result['publish_year'][0]}}</p>
+        <button class="button button-small" ng-click="showGroup(showresult)">
+          <i ng-class="showresult ? 'ion-minus' : 'ion-plus'"></i>
+        </button>
+        <ion-item  ng-show="showresult">
+          <p>ISBN: {{result['isbn'][0]}}</p>
+          <p>Genre: {{result['subject'][0]}}</p>
+
+
+          <div class="row">
+            <div class="col col-50">
+              <button class="button button-block">Amazon</button>
+            </div>
+            <div class="col col-50">
+              <button class="button button-block">CUNY</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-50">
+              <button class="button button-block">Buy</button>
+            </div>
+            <div class="col col-50">
+              <button class="button button-block">Sell</button>
+            </div>
+          </div>
+          </ion-item>
+        </div>
       </div>
 
     </div>
