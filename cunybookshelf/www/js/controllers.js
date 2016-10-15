@@ -4,4 +4,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('BookresultsCtrl', function($scope, $stateParams) {
+})
+
+.controller('AmazonresultsCtrl', function($scope, $stateParams) {
 });
