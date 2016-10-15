@@ -28,10 +28,18 @@ angular.module('cunybookshelf.controllers', [])
   //BarCode Scanner
   $scope.scanBarcode = function() {
         $cordovaBarcodeScanner.scan().then(function(imageData) {
-            alert(imageData.text);
-            console.log("Barcode Format -> " + imageData.format);
-            console.log("Cancelled -> " + imageData.cancelled);
-        }, function(error) {
+            this.searchby.model = 'isbn';
+            this.searchby.searchterm = imageData.text;
+            $http({
+              method: 'GET',
+              url: 'http://openlibrary.org/search.json?'+this.searchby.model+"="+this.searchby.searchterm
+            }).then(function successCallback(response) {
+                factorysearchresults.updatesearchresults(response.data);
+                $state.go('app.bookresults');
+              }, function errorCallback(response) {
+                alert("error: "+response.data);
+              });
+        }.bind(this), function(error) {
             console.log("An error happened -> " + error);
         });
     };
