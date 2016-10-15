@@ -1,5 +1,15 @@
 <ion-view view-title="BookResults">
   <ion-content>
+
+    <div class="list card">
+
+      <div ng-repeat="result in searchresults.docs" class="item item-avatar">
+        <img src="{{'http://covers.openlibrary.org/b/isbn/'+result['isbn'][0]+'-S.jpg'}}">
+        <h2>{{result['title']}}</h2>
+        <p>{{result['author_name'][0]}}</p>
+      </div>
+
+    </div>
     <ion-item class="button" href="#/app/amazonresults">Amazon</ion-item>
   </ion-content>
 </ion-view>

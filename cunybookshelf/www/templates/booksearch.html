@@ -1,5 +1,22 @@
 <ion-view view-title="BookSearch">
-  <ion-content>
-    <ion-item class="button" href="#/app/bookresults">Search</ion-item>
+  <ion-content class="padding">
+    <div class="list">
+
+      <label class="item item-input">
+        <input ng-model="searchby.searchterm" type="text" placeholder="Type Here">
+      </label>
+      <label class="item item-input item-select">
+        <div class="input-label">
+          SearchBy
+        </div>
+        <select ng-model="searchby.model">
+          <option ng-repeat="item in searchby.availableOptions" value="{{item.id}}">{{item.name}}</option>
+        </select>
+      </label>
+
+    </div>
+
+    <a ng-if="!searchby.model" class="button button-full icon-left ion-ios-search-strong button-stable">Search</a>
+    <a ng-if="searchby.model" ng-click="search('/app/bookresults')" class="button button-full icon-left ion-ios-search-strong button-balanced">Search</a>
   </ion-content>
 </ion-view>
