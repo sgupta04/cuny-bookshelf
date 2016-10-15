@@ -96,6 +96,69 @@ angular.module('cunybookshelf.controllers', [])
      };
 })
 
+.controller('BookresultsCtrl', function($scope, $stateParams,cunysearchresults, factorysearchresults, $http, $state, sellresult,$firebaseArray) {
+  $scope.searchresults = factorysearchresults.getsearchresults();
+  $scope.openInExternalBrowser = function(path)
+  {
+    // $scope.timestamp = new Date;
+   // Open in external browser
+   window.open(path,'_system','location=yes');
+  };
+  $scope.SalePost = function (result){
+    sellresult.updatesellresult(result);
+    $state.go('app.sell');
+  };
+
+  $scope.cunySearch = function(isbn){
+     // $scope.show();
+     $http({
+       method: 'GET',
+       url: 'http://openlibrary.org/search.json?isbn='+isbn
+     }).then(function successCallback(response) {
+         cunysearchresults.updatesearchresults(response.data);
+         $state.go('app.cunyresults');
+         // $scope.hide();
+       }, function errorCallback(response) {
+         // $scope.hide();
+         alert("error: "+response.data);
+       });
+     };
+
+
+  $scope.BuyGet = function (){
+    //$state.go('app.buy');
+    var ref = new Firebase('https://cunybookshell.firebaseio.com/');
+    $scope.list = $firebaseArray(ref); // data is downloading
+    console.log($scope.list.length); // will be undefined, data is downloading
+    $scope.list.$loaded().then(function(list) {
+      console.log(list); // data has been downloaded!
+  });
+  };
+})
+
 .controller('CunyResultsCtrl', function($scope, $stateParams, cunysearchresults) {
   $scope.cunyresults = cunysearchresults.getsearchresults().docs[0];
+})
+
+.controller('SellCtrl', function($scope, $stateParams, cunysearchresults,$firebaseArray,$state,sellresult) {
+  $scope.seller = {
+    name:"",
+    email:"",
+    mobile:"",
+    college:"",
+    price:"",
+    book:""
+  };
+  $scope.result = sellresult.getsellresult();
+  $scope.SalePost = function (){
+    var SellRef = new Firebase("https://cunybookshell.firebaseio.com/");
+
+    var Sell = $firebaseArray(SellRef);
+    $scope.seller["book"] = $scope.result
+    return Sell.$add($scope.seller);
+  };
+})
+
+.controller('BuyCtrl', function($scope, $stateParams,$firebaseArray) {
+
 });
