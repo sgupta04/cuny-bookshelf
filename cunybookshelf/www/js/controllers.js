@@ -1,6 +1,6 @@
 angular.module('cunybookshelf.controllers', [])
 
-.controller('BooksearchCtrl', function($scope,$http,factorysearchresults,$state,$ionicLoading) {
+.controller('BooksearchCtrl', function($scope,$http,factorysearchresults,$state,$ionicLoading,$cordovaBarcodeScanner) {
   $scope.searchby = {
     searchterm: null,
     model: null,
