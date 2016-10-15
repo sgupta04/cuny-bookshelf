@@ -59,19 +59,14 @@ angular.module('cunybookshelf.controllers', [])
   };
 })
 
-.controller('BookresultsCtrl', function($scope, $stateParams, factorysearchresults) {
+.controller('BookresultsCtrl', function($scope, $stateParams, factorysearchresults,$http) {
   $scope.searchresults = factorysearchresults.getsearchresults();
-  for (i = 0; i < $scope.searchresults.docs.length; i++){
-    console.log(i);
-  }
-  $scope.showresult = false;
-  $scope.showGroup = function(showresult){
-    if(showresult){
-      $scope.showresult = false;
-    }else{
-      $scope.showresult = true;
-    }
-  }
+  $scope.openInExternalBrowser = function(path)
+  {
+    // $scope.timestamp = new Date;
+   // Open in external browser
+   window.open(path,'_system','location=yes');
+  };
 })
 
 .controller('CunyResultsCtrl', function($scope, $stateParams, cunysearchresults) {
