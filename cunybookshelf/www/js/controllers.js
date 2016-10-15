@@ -66,5 +66,6 @@ angular.module('cunybookshelf.controllers', [])
   }
 })
 
-.controller('AmazonresultsCtrl', function($scope, $stateParams) {
+.controller('CunyResultsCtrl', function($scope, $stateParams, cunysearchresults) {
+  $scope.cunyresults = cunysearchresults.getsearchresults();
 });
