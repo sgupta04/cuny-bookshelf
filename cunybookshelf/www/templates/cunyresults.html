@@ -1,5 +1,15 @@
 <ion-view view-title="CunyResults">
   <ion-content>
-
+    <div class="item item-avatar">
+      <!-- {{cunyresults}} -->
+      <img src="{{'http://covers.openlibrary.org/b/isbn/'+cunyresults['isbn'][0]+'-S.jpg'}}"/>
+      <h2>{{cunyresults['title']}}</h2>
+      <p>{{cunyresults['author_name'][0]}}</p>
+      <p>Pub Year: {{cunyresults['publish_year'][0]}}</p>
+      <p>ISBN: {{cunyresults['isbn'][0]}}</p>
+      <p>Genre: {{cunyresults['subject'][0]}}</p>
+      <p>others</p>
+      </ion-item>
+      </div>
   </ion-content>
 </ion-view>

@@ -21,7 +21,7 @@
               <a class="button button-block" ng-click="openInExternalBrowser('https://www.amazon.com/gp/search/ref=sr_adv_b/?field-isbn='+result['isbn'][0])">Amazon</a>
             </div>
             <div class="col col-50">
-              <button class="button button-block">CUNY</button>
+              <button  class="button button-block" ng-click="cunySearch(result['isbn'][0])">CUNY</button>
             </div>
           </div>
           <div class="row">
