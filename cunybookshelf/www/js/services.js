@@ -12,6 +12,18 @@ angular.module('cunybookshelf.services', [])
     };
 })
 
+.factory("sellresult", function(){
+  var cunyresults = "";
+  return {
+    getsellresult: function() {
+        return cunyresults;
+    },
+    updatesellresult: function(updated) {
+      cunyresults = updated;
+    }
+  };
+})
+
 .factory("cunysearchresults", function(){
   var cunyresults = "";
   return {

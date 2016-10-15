@@ -59,7 +59,7 @@ angular.module('cunybookshelf.controllers', [])
   };
 })
 
-.controller('BookresultsCtrl', function($scope, $stateParams, factorysearchresults,$http) {
+.controller('BookresultsCtrl', function($scope, $stateParams, factorysearchresults,$http,$state,sellresult,$firebaseArray) {
   $scope.searchresults = factorysearchresults.getsearchresults();
   $scope.openInExternalBrowser = function(path)
   {
@@ -67,8 +67,44 @@ angular.module('cunybookshelf.controllers', [])
    // Open in external browser
    window.open(path,'_system','location=yes');
   };
+  $scope.SalePost = function (result){
+    sellresult.updatesellresult(result);
+    $state.go('app.sell');
+  };
+  $scope.BuyGet = function (){
+    //$state.go('app.buy');
+    var ref = new Firebase('https://cunybookshell.firebaseio.com/');
+    $scope.list = $firebaseArray(ref); // data is downloading
+    console.log($scope.list.length); // will be undefined, data is downloading
+    $scope.list.$loaded().then(function(list) {
+      console.log(list); // data has been downloaded!
+  });
+  };
 })
 
 .controller('CunyResultsCtrl', function($scope, $stateParams, cunysearchresults) {
   $scope.cunyresults = cunysearchresults.getsearchresults();
+})
+
+.controller('SellCtrl', function($scope, $stateParams, cunysearchresults,$firebaseArray,$state,sellresult) {
+  $scope.seller = {
+    name:"",
+    email:"",
+    mobile:"",
+    college:"",
+    price:"",
+    book:""
+  };
+  $scope.result = sellresult.getsellresult();
+  $scope.SalePost = function (){
+    var SellRef = new Firebase("https://cunybookshell.firebaseio.com/");
+
+    var Sell = $firebaseArray(SellRef);
+    $scope.seller["book"] = $scope.result
+    return Sell.$add($scope.seller);
+  };
+})
+
+.controller('BuyCtrl', function($scope, $stateParams,$firebaseArray) {
+
 });

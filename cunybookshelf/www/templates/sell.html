@@ -1,0 +1,30 @@
+<ion-view view-title="Sell">
+  <ion-content class="padding">
+    <div class="list">
+      <div class="item item-avatar">
+        <img src="{{'http://covers.openlibrary.org/b/isbn/'+result['isbn'][0]+'-S.jpg'}}">
+        <h2>{{result['title']}}</h2>
+        <p>{{result['author_name'][0]}}</p>
+        <p>Pub Year: {{result['publish_year'][0]}}</p>
+      </div>
+      <label class="item item-input">
+        <input ng-model="seller.name" type="text" placeholder="Full Name">
+      </label>
+      <label class="item item-input">
+        <input ng-model="seller.email" type="text" placeholder="Email">
+      </label>
+      <label class="item item-input">
+        <input ng-model="seller.mobile" type="number" placeholder="Mobile">
+      </label>
+      <label class="item item-input">
+        <input ng-model="seller.college" type="text" placeholder="College Name">
+      </label>
+      <label class="item item-input">
+        <input ng-model="seller.price" type="text" placeholder="Price ($)">
+      </label>
+      <button ng-click="SalePost()" class="button button-block button-positive">
+        Submit
+      </button>
+    </div>
+  </ion-content>
+</ion-view>
