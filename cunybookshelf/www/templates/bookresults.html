@@ -7,6 +7,33 @@
         <img src="{{'http://covers.openlibrary.org/b/isbn/'+result['isbn'][0]+'-S.jpg'}}">
         <h2>{{result['title']}}</h2>
         <p>{{result['author_name'][0]}}</p>
+        <p>Pub Year: {{result['publish_year'][0]}}</p>
+        <button class="button button-small" ng-click="showGroup(showresult)">
+          <i ng-class="showresult ? 'ion-minus' : 'ion-plus'"></i>
+        </button>
+        <ion-item  ng-show="showresult">
+          <p>ISBN: {{result['isbn'][0]}}</p>
+          <p>Genre: {{result['subject'][0]}}</p>
+
+
+          <div class="row">
+            <div class="col col-50">
+              <a class="button button-block" onclick="window.open('https://www.amazon.com/gp/search/ref=sr_adv_b/?search-alias=stripbooks&unfiltered=1&field-keywords=&field-author=&field-title=&field-isbn='+{{result['isbn'][0]}}+'&field-publisher=&node=&field-p_n_condition-type=&p_n_feature_browse-bin=&field-age_range=&field-language=&field-dateop=During&field-datemod=&field-dateyear=&sort=relevanceexprank&Adv-Srch-Books-Submit.x=27&Adv-Srch-Books-Submit.y=10', '_system', 'location=yes'); return false;">Amazon</a>
+            </div>
+            <div class="col col-50">
+              <button class="button button-block">CUNY</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-50">
+              <button class="button button-block">Buy</button>
+            </div>
+            <div class="col col-50">
+              <button class="button button-block">Sell</button>
+            </div>
+          </div>
+          </ion-item>
+        </div>
       </div>
 
     </div>
