@@ -56,7 +56,16 @@ angular.module('cunybookshelf.controllers', [])
   for (i = 0; i < $scope.searchresults.docs.length; i++){
     console.log(i);
   }
+  $scope.showresult = false;
+  $scope.showGroup = function(showresult){
+    if(showresult){
+      $scope.showresult = false;
+    }else{
+      $scope.showresult = true;
+    }
+  }
 })
 
-.controller('AmazonresultsCtrl', function($scope, $stateParams) {
+.controller('CunyResultsCtrl', function($scope, $stateParams, cunysearchresults) {
+  $scope.cunyresults = cunysearchresults.getsearchresults();
 });
