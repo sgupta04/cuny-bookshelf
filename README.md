@@ -1,5 +1,5 @@
 # CUNY BookShelf
-<img src="/cunybookshelf.png" width="300">
+<img src="/pictures/cunybookshelf.png" width="300">
 *A project that was built during CUNY Hackathon*
 
 ## Problems
@@ -22,3 +22,9 @@
   * Buying & Selling 
   * Barcode Scanner Functionality
 
+## Project Running Screenshots
+<img src="/pictures/screenshot1.png" width="300" height="550"> &nbsp; &nbsp; &nbsp; <img src="/pictures/screenshot2.png" width="300" height="550">
+
+<img src="/pictures/screenshot3.png" width="300" height="550"> &nbsp; &nbsp; &nbsp; <img src="/pictures/screenshot4.png" width="300" height="550">
+
+<img src="/pictures/screenshot5.png" width="300" height="550"> &nbsp; &nbsp; &nbsp; <img src="/pictures/screenshot6.png" width="300" height="550">
