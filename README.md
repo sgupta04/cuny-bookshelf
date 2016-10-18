@@ -1,6 +1,7 @@
 # CUNY BookShelf
 <img src="/pictures/cunybookshelf.png" width="300">
-*An [ionic](http://www.ionicframework.com/) project that was built during CUNY Hackathon*
+<br>
+*An [ionic](http://www.ionicframework.com/) project that was built during CUNY Hackathon.*
 
 ## Problems
 * [CUNY library website](http://www.cuny.edu/libraries.html) isn’t user friendly. 
