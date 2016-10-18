@@ -1,6 +1,6 @@
 # CUNY BookShelf
 <img src="/pictures/cunybookshelf.png" width="300">
-*A project that was built during CUNY Hackathon*
+*An [ionic](http://www.ionicframework.com/) project that was built during CUNY Hackathon*
 
 ## Problems
 * [CUNY library website](http://www.cuny.edu/libraries.html) isn’t user friendly. 
@@ -21,6 +21,19 @@
   * Search any book through Open Library API
   * Buying & Selling 
   * Barcode Scanner Functionality
+
+## Install & Run
+```bash
+# if you don't have cordova and ionic installed in your machine
+npm install -g cordova ionic
+
+# install dependencies
+cd cunybookshelf/
+npm install
+
+# run project
+ionic serve -l
+```
 
 ## Project Running Screenshots
 <img src="/pictures/screenshot1.png" width="300" height="550"> &nbsp; &nbsp; &nbsp; <img src="/pictures/screenshot2.png" width="300" height="550">
