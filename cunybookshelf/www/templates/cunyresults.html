@@ -1,15 +1,34 @@
-<ion-view view-title="CunyResults">
-  <ion-content>
-    <div class="item item-avatar">
-      <!-- {{cunyresults}} -->
-      <img src="{{'http://covers.openlibrary.org/b/isbn/'+cunyresults['isbn'][0]+'-S.jpg'}}"/>
-      <h2>{{cunyresults['title']}}</h2>
-      <p>{{cunyresults['author_name'][0]}}</p>
-      <p>Pub Year: {{cunyresults['publish_year'][0]}}</p>
-      <p>ISBN: {{cunyresults['isbn'][0]}}</p>
-      <p>Genre: {{cunyresults['subject'][0]}}</p>
-      <p>others</p>
-      </ion-item>
+<ion-view view-title="CUNY">
+  <ion-content class="padding">
+    <label class="item item-input item-select item-text-wrap">
+      <div class="input-label">
+        Campus
       </div>
+      <select ng-model="filterByCampus">
+        <option value=""></option>
+        <option ng-repeat="item in cunyresults[0] | unique: 'campus'" value="{{item.campus}}">{{item.campus}}</option>
+      </select>
+    </label>
+    <label class="item item-input item-select">
+      <div class="input-label">
+        Title
+      </div>
+      <select ng-model="filterByTitle">
+        <option value=""></option>
+        <option ng-repeat="item in cunyresults[0] | unique: 'title'" value="{{item.title}}">{{item.title}}</option>
+      </select>
+    </label>
+    <ion-item ng-repeat="result in cunyresults[0] | filter: filterByCampus: true | filter: filterByTitle: true" class="item item-thumbnail-left item-text-wrap">
+      <img ng-src="{{'http://covers.openlibrary.org/b/isbn/'+cunyresults[1]+'-M.jpg?default=false'}}"  err-src="./img/book.png">
+      <div class="item">
+        <h2>{{result['title']}}</h2>
+        <p>Year: {{result['year']}}</p>
+        <p>Campus: {{result['campus']}}</p>
+        <p>Status: {{result['itemstatus']}}</p>
+        <p>Availability: {{result['status']}}</p>
+        <h2>Call Number: {{result['callnumber']}}</h2>
+      </div>
+      <a class="button button-block button-positive" ng-click="openInExternalBrowser('https://libsearch.cuny.edu/F/?func=title-request-form&bib_doc_number='+result['sysno'])">Request</a>
+    </ion-item>
   </ion-content>
 </ion-view>

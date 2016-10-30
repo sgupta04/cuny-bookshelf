@@ -12,20 +12,41 @@ angular.module('cunybookshelf.services', [])
     };
 })
 
-.factory("sellresult", function(){
-  var cunyresults = "";
+.factory("loading", function($ionicLoading){
   return {
-    getsellresult: function() {
-        return cunyresults;
+    //Loading function
+    show: function() {
+      $ionicLoading.show({
+        template: 'Loading...'
+      }).then(function(){
+         console.log("The loading indicator is now displayed");
+      });
     },
-    updatesellresult: function(updated) {
-      cunyresults = updated;
+    hide: function(){
+      $ionicLoading.hide().then(function(){
+         console.log("The loading indicator is now hidden");
+      });
     }
   };
 })
 
+// .factory("factorysavedresults", function(){
+//   return {
+//     savedata: function(newdata) {
+//         var olddata = window.localStorage.getItem('SavedResults') || [];
+//         olddata.push(newdata);
+//         alert(olddata[0]['loc']);
+//         window.localStorage.setItem('SavedResults', JSON.stringify(olddata));
+//     },
+//     getdata: function() {
+//       var data = window.localStorage.getItem('SavedResults');
+//       return data;
+//     }
+//   };
+// })
+
 .factory("cunysearchresults", function(){
-  var cunyresults = "";
+  var cunyresults = [];
   return {
     getsearchresults: function() {
         return cunyresults;

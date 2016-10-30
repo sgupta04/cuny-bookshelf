@@ -1,41 +1,32 @@
-<ion-view view-title="BookResults">
-  <ion-content>
-
-    <div class="list card">
-
-      <div ng-repeat="result in searchresults.docs" class="item item-avatar">
-        <img src="{{'http://covers.openlibrary.org/b/isbn/'+result['isbn'][0]+'-S.jpg'}}">
+<ion-view view-title="Results">
+  <ion-content class="padding">
+    <div style="border-color: rgba(0, 0, 0, 0);background-color: rgba(0, 0, 0, 0);color: white;" class="list card">
+      <div ng-repeat="result in searchresults.docs" class="item item-thumbnail-left item-text-wrap">
+        <img ng-src="{{'http://covers.openlibrary.org/b/isbn/'+result['isbn'][result['isbn'].length-1]+'-M.jpg?default=false'}}" err-src="./img/book.png">
+        <!-- <img style="background-size: 100%;" src="{{'http://images.amazon.com/images/P/'+result['isbn'][result['isbn'].length-1]+'.01.20TRZZZZ.jpg'}}"/> -->
         <h2>{{result['title']}}</h2>
         <p>{{result['author_name'][0]}}</p>
-        <p>Pub Year: {{result['publish_year'][0]}}</p>
-        <button class="button button-small" ng-click="details = !details">
-          <i ng-class="details ? 'ion-minus' : 'ion-plus'"></i>
-        </button>
+        <ul>
+          <span>Pub Year:</span>
+          <li style="display: inline-block;padding: 5px;font-size: 14px;" ng-repeat="year in result['publish_year'] | limitTo:-3 | orderBy:year" >{{year}}</li>
+          <button class="button button-small" ng-click="details = !details">
+            <i ng-class="details ? 'ion-minus' : 'ion-plus'"></i>
+          </button>
+        </ul>
         <ion-item  ng-show="details">
-          <p>ISBN: {{result['isbn'][0]}}</p>
-          <p>Genre: {{result['subject'][0]}}</p>
-
-
-          <div class="row">
-            <div class="col col-50">
-              <a class="button button-block" ng-click="openInExternalBrowser('https://www.amazon.com/gp/search/ref=sr_adv_b/?field-isbn='+result['isbn'][0])">Amazon</a>
-            </div>
-            <div class="col col-50">
-              <button  class="button button-block" ng-click="cunySearch(result['isbn'][0])">CUNY</button>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col col-50">
-              <button ng-click="BuyGet()" class="button button-block">Buy</button>
-            </div>
-            <div class="col col-50">
-              <button ng-click="SalePost(result)" class="button button-block">Sell</button>
-            </div>
-          </div>
-          </ion-item>
-        </div>
+          <a class="amazon button button-block" ng-click="openInExternalBrowser('https://www.amazon.com/gp/search/ref=sr_adv_b/?field-isbn='+result['isbn'][0])">Amazon</a>
+          <a class="bwb button button-block" ng-click="openInExternalBrowser('http://www.betterworldbooks.com/-id-'+result['isbn'][0]+'.aspx')">BetterWorldBooks</a>
+          <a class="bnb button button-block" ng-click="openInExternalBrowser('http://www.barnesandnoble.com/w/?ean='+result['isbn'][0])">Barnes&Nobles</a>
+          <button ng-if="result['isbn'].length" class="cuny button button-block button-royal" ng-click="cunySearch(result['isbn'][result['isbn'].length-1],'isbn',result)">CUNY</button>
+          <button ng-if="!result['isbn'].length" class="cuny button button-block button-royal" ng-click="cunySearch(result['title'],'title',result)">CUNY</button>
+          <a class="save button button-block icon-left" ng-click="savedata({loc:'OPEN',data:result})">
+            <i class="icon ion-ios-star"></i>
+            Save Book
+          </a>
+          <h4>ISBN:</h4>
+          <ul><li style="font-size: 14px;" ng-repeat="isbn in result['isbn'] | limitTo:5">{{isbn}}<li></ul>
+        </ion-item>
       </div>
-
     </div>
   </ion-content>
 </ion-view>

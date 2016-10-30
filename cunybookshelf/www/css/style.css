@@ -1,1 +1,35 @@
 /* Empty. Add your own CSS if you like */
+.padding {
+  background-image: url('../img/bg.png');
+}
+
+.custom {
+  background-image: url('../img/bg.png'); /* This sets the background color*/
+}
+
+.amazon {
+  background: #ff9900;
+  font-weight: bold;
+}
+
+.bwb {
+  background: #86cc6c;
+  font-weight: bold;
+  color: #0f67af;
+}
+
+.bnb {
+  background: #123114;
+  font-weight: bold;
+  color: #CE6900;
+}
+
+.cuny {
+  font-weight: bold;
+}
+
+.save {
+  background: #FFC900;
+  font-weight: bold;
+  color: black;
+}

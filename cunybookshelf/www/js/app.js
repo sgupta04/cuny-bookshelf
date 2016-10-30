@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('cunybookshelf', ['ionic', 'cunybookshelf.controllers', 'cunybookshelf.services', 'ngCordova', 'firebase'])
+angular.module('cunybookshelf', ['ionic', 'cunybookshelf.controllers', 'cunybookshelf.services', 'ngCordova', 'ngStorage'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -52,22 +52,12 @@ angular.module('cunybookshelf', ['ionic', 'cunybookshelf.controllers', 'cunybook
     }
   })
 
-  .state('app.sell', {
-    url: '/sell',
+  .state('app.savedresults', {
+    url: '/savedresults',
     views: {
       'menuContent': {
-        templateUrl: 'templates/sell.html',
-        controller: 'SellCtrl'
-      }
-    }
-  })
-
-  .state('app.buy', {
-    url: '/buy',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/buy.html',
-        controller: 'BuyCtrl'
+        templateUrl: 'templates/savedresults.html',
+        controller: 'SavedresultsCtrl'
       }
     }
   })
