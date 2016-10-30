@@ -1,6 +1,6 @@
 angular.module('cunybookshelf.controllers', [])
 
-.controller('BooksearchCtrl', function($scope,$http,factorysearchresults,$state,loading,$cordovaBarcodeScanner) {
+.controller('BooksearchCtrl', function($scope,$http,factorysearchresults,$state,loading,$cordovaBarcodeScanner,$ionicPopup) {
   $scope.searchby = {
     searchterm: null,
     model: null,
@@ -21,10 +21,18 @@ angular.module('cunybookshelf.controllers', [])
           loading.hide();
           $state.go('app.bookresults');
         }
-        else {loading.hide();alert("Book not found");}
+        else {
+          loading.hide();
+          $ionicPopup.alert({
+           title: 'Book not found!'
+         });
+        }
       }, function errorCallback(response) {
         loading.hide();
-        alert("error: "+response.data);
+        $ionicPopup.alert({
+         title: 'Error',
+         template: response.date
+       });
       });
   }
 
@@ -51,7 +59,10 @@ angular.module('cunybookshelf.controllers', [])
 
   $scope.savedata = function(newdata){
     $localStorage.message = newdata;
-    alert("Saved!");
+    $ionicPopup.alert({
+     title: 'Saved!',
+     template: 'The result can be found on Saved Searches'
+   });
   }
 
   $scope.cunySearch = function(keyword,key,result){
@@ -68,7 +79,7 @@ angular.module('cunybookshelf.controllers', [])
          else {
            loading.hide();
            $ionicPopup.confirm({
-             title: 'That particular book not found',
+             title: 'That particular book not found!',
              template: 'Do you wish to search the book by Title instead? (Note: Results may not be accurate)',
              scope: $scope
            }).then(function(res) {
@@ -85,11 +96,16 @@ angular.module('cunybookshelf.controllers', [])
                     }
                     else {
                       loading.hide();
-                      alert("Book not available in CUNY");
+                      $ionicPopup.alert({
+                       title: 'Book not available in CUNY'
+                     });
                     }
                }, function errorCallback(response) {
                  loading.hide();
-                 alert("error: "+response.data);
+                 $ionicPopup.alert({
+                  title: 'Error',
+                  template: response.date
+                });
                });
              }
              else {
@@ -100,7 +116,10 @@ angular.module('cunybookshelf.controllers', [])
          }
        }, function errorCallback(response) {
          loading.hide();
-         alert("error: "+response.data);
+         $ionicPopup.alert({
+          title: 'Error',
+          template: response.data
+        });
        });
      };
 })
@@ -128,7 +147,7 @@ angular.module('cunybookshelf.controllers', [])
          else {
            loading.hide();
            $ionicPopup.confirm({
-             title: 'That particular book not found',
+             title: 'That particular book not found!',
              template: 'Do you wish to search the book by Title instead? (Note: Results may not be accurate)',
              scope: $scope
            }).then(function(res) {
@@ -145,11 +164,16 @@ angular.module('cunybookshelf.controllers', [])
                     }
                     else {
                       loading.hide();
-                      alert("Book not available in CUNY");
+                      $ionicPopup.alert({
+                       title: 'Book not available in CUNY'
+                     });
+
                     }
                }, function errorCallback(response) {
                  loading.hide();
-                 alert("error: "+response.data);
+                 $ionicPopup.alert({
+                  title: 'Book not available in CUNY'
+                });
                });
              }
              else {
@@ -160,7 +184,10 @@ angular.module('cunybookshelf.controllers', [])
          }
        }, function errorCallback(response) {
          loading.hide();
-         alert("error: "+response.data);
+         $ionicPopup.alert({
+          title: 'Error',
+          template: response.data
+        });
        });
      };
 })
