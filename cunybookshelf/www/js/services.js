@@ -30,20 +30,54 @@ angular.module('cunybookshelf.services', [])
   };
 })
 
-// .factory("factorysavedresults", function(){
-//   return {
-//     savedata: function(newdata) {
-//         var olddata = window.localStorage.getItem('SavedResults') || [];
-//         olddata.push(newdata);
-//         alert(olddata[0]['loc']);
-//         window.localStorage.setItem('SavedResults', JSON.stringify(olddata));
-//     },
-//     getdata: function() {
-//       var data = window.localStorage.getItem('SavedResults');
-//       return data;
-//     }
-//   };
-// })
+.factory("factorysavedresults", function($localStorage){
+  return {
+    savedata: function(newdata) {
+        var olddata = $localStorage.message || [];
+        olddata.push(newdata);
+        $localStorage.message = olddata;
+    },
+    getdata: function() {
+      var data = $localStorage.message;
+      return data;
+    },
+    updatedata: function(newdata) {
+      $localStorage.message = newdata
+    }
+  };
+})
+
+.factory("filter", function($http, $ionicPopup){
+  return {
+    isbn: function(result) {
+      var temp = [];
+      function tempf(edition_key) {
+        $http({
+          method: 'GET',
+          url: 'https://openlibrary.org/books/'+edition_key+".json"
+        }).then(function successCallback(response) {
+          temp.push(response.data)
+          }, function errorCallback(response) {
+            $ionicPopup.alert({
+             title: 'Error',
+             template: response.data
+           });
+          });
+      }
+      if(result["edition_key"].length>1){
+        for(i=0;i<result["edition_key"].length-1; i++)
+        {
+          tempf(result["edition_key"][i])
+        }
+      }
+      else {
+        tempf(result["edition_key"]);
+      }
+      console.log(temp);
+      return temp;
+    }
+  };
+})
 
 .factory("cunysearchresults", function(){
   var cunyresults = [];

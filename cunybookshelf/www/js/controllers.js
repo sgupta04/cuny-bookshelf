@@ -31,7 +31,7 @@ angular.module('cunybookshelf.controllers', [])
         loading.hide();
         $ionicPopup.alert({
          title: 'Error',
-         template: response.date
+         template: response.data
        });
       });
   }
@@ -48,22 +48,67 @@ angular.module('cunybookshelf.controllers', [])
     };
 })
 
-.controller('BookresultsCtrl', function($scope, $stateParams,cunysearchresults, factorysearchresults, $http, $state, loading, $ionicPopup, $localStorage) {
+.controller('BookresultsCtrl', function($scope, $stateParams,cunysearchresults, factorysearchresults, $http, $state, loading, $ionicPopup, factorysavedresults, filter, $ionicModal) {
   $scope.searchresults = factorysearchresults.getsearchresults();
-  $scope.openInExternalBrowser = function(path)
+  $scope.openInExternalBrowser = function(path, isbn)
   {
     // $scope.timestamp = new Date;
    // Open in external browser
-   window.open(path,'_system','location=yes');
+   if(path == "CUNY"){
+     if(isbn[1]){
+       $scope.cunySearch(isbn[1],'isbn', $scope.result);
+     }
+     else $scope.cunySearch(isbn[0],'isbn', $scope.result);
+   }
+   else
+   {
+     if(isbn[1]){
+       window.open(path+isbn[1],'_system','location=yes');
+     }
+     else window.open(path+isbn[0],'_system','location=yes');
+   }
   };
 
   $scope.savedata = function(newdata){
-    $localStorage.message = newdata;
+    factorysavedresults.savedata(newdata);
     $ionicPopup.alert({
      title: 'Saved!',
      template: 'The result can be found on Saved Searches'
    });
   }
+
+  $scope.filterisbn = function(result, path){
+     $scope.editions = filter.isbn(result);
+     $scope.path = path;
+     $scope.result = result;
+     $scope.openModal();
+     //$scope.openInExternalBrowser(path+filterisbn);
+  }
+
+  $ionicModal.fromTemplateUrl('templates/edition.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  // Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
 
   $scope.cunySearch = function(keyword,key,result){
     loading.show();
@@ -104,7 +149,7 @@ angular.module('cunybookshelf.controllers', [])
                  loading.hide();
                  $ionicPopup.alert({
                   title: 'Error',
-                  template: response.date
+                  template: response.data
                 });
                });
              }
@@ -124,13 +169,66 @@ angular.module('cunybookshelf.controllers', [])
      };
 })
 
-.controller('SavedresultsCtrl', function($scope, $stateParams, $http, $state, loading, $ionicPopup, $localStorage, cunysearchresults) {
-  $scope.result = $localStorage.message.data;
-  $scope.openInExternalBrowser = function(path)
+.controller('SavedresultsCtrl', function($scope, $stateParams, $http, $state, loading, $ionicPopup, $localStorage, cunysearchresults, factorysavedresults, filter, $ionicModal) {
+  $scope.results = factorysavedresults.getdata();
+  $scope.filterisbn = function(result, path){
+     $scope.editions = filter.isbn(result);
+     $scope.path = path;
+     $scope.result = result;
+     $scope.openModal();
+     //$scope.openInExternalBrowser(path+filterisbn);
+  }
+
+  $ionicModal.fromTemplateUrl('templates/edition.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  // Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+
+  $scope.deletedata = function(index){
+    var data = factorysavedresults.getdata();
+    data.splice(index, 1);
+    factorysavedresults.updatedata(data);
+    alert(index);
+  }
+
+  $scope.openInExternalBrowser = function(path, isbn, result)
   {
     // $scope.timestamp = new Date;
    // Open in external browser
-   window.open(path,'_system','location=yes');
+   if(path == "CUNY"){
+     if(isbn[1]){
+       $scope.cunySearch(isbn[1],'isbn', result);
+     }
+     else $scope.cunySearch(isbn[0],'isbn', result);
+   }
+   else
+   {
+     if(isbn[1]){
+       window.open(path+isbn[1],'_system','location=yes');
+     }
+     else window.open(path+isbn[0],'_system','location=yes');
+   }
   };
 
   $scope.cunySearch = function(keyword,key,result){
@@ -193,8 +291,17 @@ angular.module('cunybookshelf.controllers', [])
 })
 
 
-.controller('CunyResultsCtrl', function($scope, $stateParams, cunysearchresults) {
+.controller('CunyResultsCtrl', function($scope, $stateParams, cunysearchresults, factorysavedresults, $ionicPopup) {
   $scope.cunyresults = cunysearchresults.getsearchresults();
+
+  $scope.savedata = function(newdata){
+    factorysavedresults.savedata(newdata);
+    $ionicPopup.alert({
+     title: 'Saved!',
+     template: 'The result can be found on Saved Searches'
+   });
+  }
+
   $scope.openInExternalBrowser = function(path)
   {
    // Open in external browser

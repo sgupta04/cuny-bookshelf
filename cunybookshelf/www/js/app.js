@@ -53,6 +53,7 @@ angular.module('cunybookshelf', ['ionic', 'cunybookshelf.controllers', 'cunybook
   })
 
   .state('app.savedresults', {
+    cache: false,
     url: '/savedresults',
     views: {
       'menuContent': {

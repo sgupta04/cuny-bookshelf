@@ -28,6 +28,10 @@
         <p>Availability: {{result['status']}}</p>
         <h2>Call Number: {{result['callnumber']}}</h2>
       </div>
+      <a class="save button button-block icon-left" ng-click="savedata({loc:'CUNY',data:result})">
+        <i class="icon ion-ios-star"></i>
+        Save Book
+      </a>
       <a class="button button-block button-positive" ng-click="openInExternalBrowser('https://libsearch.cuny.edu/F/?func=title-request-form&bib_doc_number='+result['sysno'])">Request</a>
     </ion-item>
   </ion-content>

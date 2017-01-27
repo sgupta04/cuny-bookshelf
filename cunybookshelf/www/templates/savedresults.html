@@ -1,28 +1,57 @@
 <ion-view view-title="Saved Searches">
   <ion-content class="padding">
-      <div style="border-color: rgba(0, 0, 0, 0);background-color: rgba(0, 0, 0, 0);color: white;" class="list card">
-        <div class="item item-thumbnail-left item-text-wrap">
-          <img ng-src="{{'http://covers.openlibrary.org/b/isbn/'+result['isbn'][result['isbn'].length-1]+'-M.jpg?default=false'}}" err-src="./img/book.png">
-          <!-- <img style="background-size: 100%;" src="{{'http://images.amazon.com/images/P/'+result['isbn'][result['isbn'].length-1]+'.01.20TRZZZZ.jpg'}}"/> -->
-          <h2>{{result['title']}}</h2>
-          <p>{{result['author_name'][0]}}</p>
-          <ul>
-            <span>Pub Year:</span>
-            <li style="display: inline-block;padding: 5px;font-size: 14px;" ng-repeat="year in result['publish_year'] | limitTo:-3 | orderBy:year" >{{year}}</li>
-            <button class="button button-small" ng-click="details = !details">
-              <i ng-class="details ? 'ion-minus' : 'ion-plus'"></i>
-            </button>
-          </ul>
-          <ion-item  ng-show="details">
-            <a class="amazon button button-block" ng-click="openInExternalBrowser('https://www.amazon.com/gp/search/ref=sr_adv_b/?field-isbn='+result['isbn'][0])">Amazon</a>
-            <a class="bwb button button-block" ng-click="openInExternalBrowser('http://www.betterworldbooks.com/-id-'+result['isbn'][0]+'.aspx')">BetterWorldBooks</a>
-            <a class="bnb button button-block" ng-click="openInExternalBrowser('http://www.barnesandnoble.com/w/?ean='+result['isbn'][0])">Barnes&Nobles</a>
-            <button ng-if="result['isbn'].length" class="cuny button button-block button-royal" ng-click="cunySearch(result['isbn'][result['isbn'].length-1],'isbn',result)">CUNY</button>
-            <button ng-if="!result['isbn'].length" class="cuny button button-block button-royal" ng-click="cunySearch(result['title'],'title',result)">CUNY</button>
-            <h4>ISBN:</h4>
-            <ul><li style="font-size: 14px;" ng-repeat="isbn in result['isbn'] | limitTo:5">{{isbn}}<li></ul>
+      <ion-list style="border-color: rgba(0, 0, 0, 0);background-color: rgba(0, 0, 0, 0);color: white;" class="list card">
+        <ion-item ng-repeat="result in results">
+          <div ng-if="result.loc=='OPEN'" class="item item-thumbnail-left item-text-wrap">
+            <img ng-src="{{'http://covers.openlibrary.org/b/isbn/'+result['isbn'][result['isbn'].length-1]+'-M.jpg?default=false'}}" err-src="./img/book.png">
+            <!-- <img style="background-size: 100%;" src="{{'http://images.amazon.com/images/P/'+result['isbn'][result['isbn'].length-1]+'.01.20TRZZZZ.jpg'}}"/> -->
+            <h2>{{result.data['title']}}</h2>
+            <p>{{result.data['author_name'][0]}}</p>
+            <ul>
+              <span>Pub Year:</span>
+              <li style="display: inline-block;padding: 5px;font-size: 14px;" ng-repeat="year in result.data['publish_year'] | limitTo:-2 | orderBy:year" >{{year}}</li>
+              <button class="button button-small" ng-click="details = !details">
+                <i ng-class="details ? 'ion-minus' : 'ion-plus'"></i>
+              </button>
+            </ul>
+            <ion-item  ng-show="details">
+              <a ng-if="result.data['isbn'].length" class="amazon button button-block" ng-click="filterisbn(result.data, 'https://www.amazon.com/gp/search/ref=sr_adv_b/?field-isbn=')">Amazon</a>
+              <a ng-if="result.data['isbn'].length" class="bnb button button-block" ng-click="filterisbn(result.data,'http://www.barnesandnoble.com/w/?ean=')">Barnes&Nobles</a>
+              <button ng-if="result.data['isbn'].length" class="cuny button button-block button-royal" ng-click="filterisbn(result.data, 'CUNY')">CUNY</button>
+              <button ng-if="!result.data['isbn'].length" class="cuny button button-block button-royal" ng-click="cunySearch(result.data['title'],'title',result.data)">CUNY</button>
+              <h4>ISBN:</h4>
+              <ul><li style="font-size: 14px;" ng-repeat="isbn in result.data['isbn'] | limitTo:5">{{isbn}}<li></ul>
+            </ion-item>
+          </div>
+          <div ng-if="result.loc=='CUNY'" class="item item-thumbnail-left item-text-wrap">
+            <img ng-src="{{'http://covers.openlibrary.org/b/isbn/'+cunyresults[1]+'-M.jpg?default=false'}}"  err-src="./img/book.png">
+            <h2>{{result.data['title']}}</h2>
+            <p>Year: {{result.data['year']}}</p>
+            <p>Campus: {{result.data['campus']}}</p>
+            <p>Status: {{result.data['itemstatus']}}</p>
+            <p>Availability: {{result.data['status']}}</p>
+            <h2>Call Number: {{result.data['callnumber']}}</h2>
+            <a class="button button-block button-positive" ng-click="openInExternalBrowser('https://libsearch.cuny.edu/F/?func=title-request-form&bib_doc_number=',[result.data['sysno']],0)">Request</a>
+            <a class="button button-block button-assertive" ng-click="deletedata($index)">Delete</a>
           </ion-item>
-        </div>
+        </ion-list>
       </div>
   </ion-content>
+  <script id="templates/edition.html" type="text/ng-template">
+    <ion-modal-view style="width: 90%; height: 50%; top: 25%; left: 5%; right: 5%; bottom: 25%; min-height: 0;">
+      <ion-header-bar class="bar bar-header bar-dark">
+        <h1 class="title">Edition | Date Published</h1>
+        <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+      </ion-header-bar>
+      <ion-content class="padding">
+        <ion-list>
+          <ion-item class="item item-text-wrap" ng-if="edition['publish_date'] && edition['isbn_10']" ng-repeat="edition in editions  | unique: 'publish_date'" ng-click="openInExternalBrowser(path,[edition['isbn_10'],edition['isbn_13']],result);">
+            <span ng-if="edition['edition_name']">{{edition['edition_name']}} | </span>
+            <span>{{edition['publish_date']}}</span>
+          </ion-item>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-modal-view>
+  </script>
 </ion-view>

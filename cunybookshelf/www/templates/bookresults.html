@@ -8,16 +8,15 @@
         <p>{{result['author_name'][0]}}</p>
         <ul>
           <span>Pub Year:</span>
-          <li style="display: inline-block;padding: 5px;font-size: 14px;" ng-repeat="year in result['publish_year'] | limitTo:-3 | orderBy:year" >{{year}}</li>
+          <li style="display: inline-block;padding: 5px;font-size: 14px;" ng-repeat="year in result['publish_year'] | limitTo:-2 | orderBy:year" >{{year}}</li>
           <button class="button button-small" ng-click="details = !details">
             <i ng-class="details ? 'ion-minus' : 'ion-plus'"></i>
           </button>
         </ul>
         <ion-item  ng-show="details">
-          <a class="amazon button button-block" ng-click="openInExternalBrowser('https://www.amazon.com/gp/search/ref=sr_adv_b/?field-isbn='+result['isbn'][0])">Amazon</a>
-          <a class="bwb button button-block" ng-click="openInExternalBrowser('http://www.betterworldbooks.com/-id-'+result['isbn'][0]+'.aspx')">BetterWorldBooks</a>
-          <a class="bnb button button-block" ng-click="openInExternalBrowser('http://www.barnesandnoble.com/w/?ean='+result['isbn'][0])">Barnes&Nobles</a>
-          <button ng-if="result['isbn'].length" class="cuny button button-block button-royal" ng-click="cunySearch(result['isbn'][result['isbn'].length-1],'isbn',result)">CUNY</button>
+          <a ng-if="result['isbn'].length" class="amazon button button-block" ng-click="filterisbn(result, 'https://www.amazon.com/gp/search/ref=sr_adv_b/?field-isbn=')">Amazon</a>
+          <a ng-if="result['isbn'].length" class="bnb button button-block" ng-click="filterisbn(result,'http://www.barnesandnoble.com/w/?ean=')">Barnes&Nobles</a>
+          <button ng-if="result['isbn'].length" class="cuny button button-block button-royal" ng-click="filterisbn(result, 'CUNY')">CUNY</button>
           <button ng-if="!result['isbn'].length" class="cuny button button-block button-royal" ng-click="cunySearch(result['title'],'title',result)">CUNY</button>
           <a class="save button button-block icon-left" ng-click="savedata({loc:'OPEN',data:result})">
             <i class="icon ion-ios-star"></i>
@@ -29,4 +28,21 @@
       </div>
     </div>
   </ion-content>
+  <script id="templates/edition.html" type="text/ng-template">
+    <ion-modal-view style="width: 90%; height: 50%; top: 25%; left: 5%; right: 5%; bottom: 25%; min-height: 0;">
+      <ion-header-bar class="bar bar-header bar-dark">
+        <h1 class="title">Edition | Date Published</h1>
+        <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+      </ion-header-bar>
+      <ion-content class="padding">
+        <ion-list>
+          <ion-item class="item item-text-wrap" ng-if="edition['publish_date'] && edition['isbn_10']" ng-repeat="edition in editions  | unique: 'publish_date'" ng-click="openInExternalBrowser(path,[edition['isbn_10'],edition['isbn_13']],result);">
+            <span ng-if="edition['edition_name']">{{edition['edition_name']}} | </span>
+            <span>{{edition['publish_date']}}</span>
+          </ion-item>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-modal-view>
+  </script>
 </ion-view>
